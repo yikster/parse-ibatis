@@ -7,12 +7,17 @@
 # How to use this
 ## Prerequisites
  * python3
+ * git
+```bash
+[ec2-user@192.168.0.1 /home/ec2-user]$ sudo yum install -y python36
+[ec2-user@192.168.0.1 /home/ec2-user]$ sudo yum install -y git 
+```
 
-## Running
+## Run script
 ```bash
 [ec2-user@192.168.0.1 /home/ec2-user]$ git clone https://github.com/yikster/parse-ibatis
 [ec2-user@192.168.0.1 /home/ec2-user]$ cd parse-ibatis
-[ec2-user@192.168.0.1 /home/ec2-user]$ python3 parse-ibatis.py -p /home/ec2-user/data 
+[ec2-user@192.168.0.1 /home/ec2-user/parse-ibatis]$ python3 parse-ibatis.py -p /home/ec2-user/data 
 ```
 ### result
 ```bash
@@ -40,9 +45,9 @@ Unique Table Column List...
 	 
 All Query List using LIKE...
      1. TABLE_A.column_1
-        1-01. file_sql_id sql
-        1-02. file_sql_id sql
-        1-03. file_sql_id sql
+        1-01. file_sql_id SELECT /* xmlfile.queryid */ field1, field2 FROM ...
+        1-02. file_sql_id SELECT /* xmlfile.queryid */ field1, field2 FROM ...
+        1-03. file_sql_id SELECT /* xmlfile.queryid */ field1, field2 FROM ...
 	 
 ```
 
@@ -50,4 +55,4 @@ All Query List using LIKE...
 0.1 Find queries using LIKE in directory
 
 ## Authors
-Kyoungsu Lee, yikster@gmail.com
+Kyoungsu Lee
