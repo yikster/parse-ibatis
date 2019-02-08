@@ -224,7 +224,7 @@ def main():
                   (i + 1,
                    j + 1,
                    data["sql_file_id"],
-                   data["sql"]))
+                   data["sql"].decode("ascii", "ignore")))
 
 
 main()
