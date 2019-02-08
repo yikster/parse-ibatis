@@ -58,7 +58,7 @@ def find_where_and_from(column, lines, index):
     else:
         sys.exit()
 
-    sql = " ".join(lines).strip()
+    sql = " ".join(lines).replace("  ", "").strip()
 
     return table_name, sql
 
@@ -101,7 +101,7 @@ def parse_xml(file):
     result = []
 
     select = root.findall(".//select")
-    sql = root.findall("..sql")
+    sql = root.findall("..//sql")
     update = root.findall(".//update")
     delete = root.findall(".//delete")
     insert = root.findall(".//insert")
@@ -123,7 +123,7 @@ def parse_xml(file):
             sql_lines = upper.split("\n")
             sql_id = e.attrib['id']
 
-            result.extend(parse_one_sql(sql_lines, sql_id, file, " ".join(e.text.split("\n")).rstrip()))
+            result.extend(parse_one_sql(sql_lines, sql_id, file, " ".join(e.text.split("\n")).replace("  ", "").rstrip()))
 
     return total_elements, len(result), result
 
@@ -143,7 +143,7 @@ def parse_one_sql(sql_lines, sql_id, file, raw_sql):
                    "table": table,
                    "column": extract_alias(column),
                    "likes": line,
-                   "sql": raw_sql
+                   "sql": raw_sql.encode("utf-8")
                    }
             result.append(row)
     return result
@@ -213,7 +213,7 @@ def main():
                len(sql_list[key]),
                sql_list[key][0]["sql_file_id"],
                "/* !!! Check SQL!!! */ " if key.startswith(".") else "",
-               sql_list[key][0]["sql"].strip().replace("  ", "")[:80]))
+               sql_list[key][0]["sql"][:80 if len(sql_list[key][0]["sql"]) > 80 else -1]))
 
     print("\n\n\nAll Query Lists using LIKE")
     print("--------------------------------------------")
@@ -224,7 +224,7 @@ def main():
                   (i + 1,
                    j + 1,
                    data["sql_file_id"],
-                   data["sql"].replace("  ", "").strip()))
+                   data["sql"]))
 
 
 main()
